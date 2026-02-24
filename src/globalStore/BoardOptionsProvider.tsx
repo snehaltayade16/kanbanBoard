@@ -1,5 +1,6 @@
 import { useState} from 'react'
 import type  { ReactNode } from 'react'
+import type {Col} from './BoardOptionContext'
 import {BoardOptionContext} from './BoardOptionContext'
 
 type Props = {
@@ -7,10 +8,45 @@ type Props = {
 }
 function BoardColumnsProvider( {children}:Props ){
 
-    const [options, setOptions] = useState([{title:'To DO',id:1,color:'bg-indigo-600'},{title:'In Progress',id:2,color:'bg-zinc-300'},{title:'Done',id:3,color:'bg-orange-400'}])
+    const [options, setOptions] = useState<Col[]>(
+        [
+            {
+                title:'To do',
+                id:1,
+                color:'bg-indigo-600',
+                cards:[] 
+
+            },
+            {
+                title:'In Progress',
+                id:2,
+                color:'bg-pink-300',
+                cards:[]
+            },
+            {
+                title:'Done',
+                id:3,
+                color:'bg-orange-400',
+                cards:[]
+            }
+        ])
+
+        function addCards(cardId:number,title:string){
+           setOptions(prev =>
+                prev.map(item => {
+                    if (item.id === cardId) {
+                    return {
+                        ...item,
+                        cards: [...item.cards, {id:Date.now(),title:title}]
+                    };
+                    }
+                    return item;
+                })
+            );
+        }
 
    return(
-    <BoardOptionContext.Provider value = {{options, setOptions}}>
+    <BoardOptionContext.Provider value = {{options, setOptions, addCards}}>
         {children}
     </BoardOptionContext.Provider>
    )
