@@ -1,16 +1,22 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { BoardOptionContext } from '../globalStore/BoardOptionContext'
-import deleteIcon from '../assets/delete.png'
+import TaskCards from './Taskcards'
+import edit from '../assets/edit.png'
 
 function KanbanBoard(){
-    const {options, addCards} = useContext(BoardOptionContext)!
+    const {options, addCards, editDashBoardOption} = useContext(BoardOptionContext)!
     const [activeCardID, setActiveCardID] = useState<number | null>(null)
     const [inputText, setInputText] = useState<string | null>(null)
+    const [isEdit, setEdit] = useState(false)
     function addNewTask(colId:number) {
         if(!inputText) return;
         addCards(colId, inputText)
         setActiveCardID(0)
         setInputText('')
+    }
+    function showEditInput(id:number){
+        setActiveCardID(id)
+        setEdit(true)
     }
     console.log(options)
     return(
@@ -18,14 +24,21 @@ function KanbanBoard(){
             <div className="flex gap-5 h-full w-full pt-5">
                {
                     options.map((item) => 
-                        <div className="flex flex-col flex-1 bg-slate-100 rounded-xl p-3">
+                        <div key ={item.id} className="flex flex-col flex-1 bg-slate-100 rounded-xl p-3">
                             <div className="flex items-center h-8 gap-2.5 justify-between">
                                 <div className="flex items-center">
                                     <div className={`h-2.5 rounded-full aspect-square mr-1.5 ${item.color}`}></div>
-                                    <p className="text-black mr-2.5">{item.title}</p>
+                                    {
+                                    
+                                       activeCardID == item.id && isEdit == true ? <input placeholder="Enter title" onBlur={(e) =>{ editDashBoardOption(item.id, e.target.value), setEdit(false)}}></input>:<p className="text-black mr-2.5">{item.title}</p> 
+
+                                    }
                                     <div className="h-6 aspect-square flex items-center justify-center bg-sky-200 rounded-full text-xs font-bold">{item.cards.length}</div>
                                 </div>
-                                <div className="text-xl text-slate-400 cursor-pointer" onClick={() => setActiveCardID(item.id)}>+</div>
+                                <div className="flex items-center gap-1.5">
+                                    <div className="text-xl text-slate-400 cursor-pointer" onClick={() => setActiveCardID(item.id)}>+</div>
+                                    <img src={edit} className="h-3.5" onClick={() => showEditInput(item.id)}/>
+                                </div>
                             </div>
                             <div className="h-full w-full pt-2.5">
                                 {
@@ -43,13 +56,7 @@ function KanbanBoard(){
 
                                 {
                                     item.cards.length > 0 ? 
-                                    item.cards.map(item => 
-                                    <div className="flex flex-col justify-between bg-white h-48 rounded-lg w-full p-2.5">
-                                        <div className="flex items-center justify-between">
-                                            <p className="py-3 pb-5 text-base text-black">{item.title}</p>
-                                            <img src={deleteIcon} className="h-5 cursor-pointer"/>
-                                        </div>
-                                    </div>): <div>No Data Found</div>
+                                    item.cards.map(card => (<TaskCards key={card.id} CardData={card} DashBoardOptionId={item.id}/>)): <div className="h-full w-full flex items-center justify-center text-black">No Data Found</div>
                                 }
                             </div>
                         </div>

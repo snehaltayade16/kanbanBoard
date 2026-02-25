@@ -45,8 +45,33 @@ function BoardColumnsProvider( {children}:Props ){
             );
         }
 
+        function editDashBoardOption(cardId:number, title:string){
+            setOptions(prev => 
+                prev.map((items) => {
+                    if(items.id == cardId)
+                    {
+                        return {...items, title : title}
+                    }
+                    return items
+                })
+            )
+            // console.log('edit dashboard',cardId, title)
+        }
+
+        function deleteCards(cardId:number, dashBoardOptionId:number){
+           setOptions(prev => {
+            return prev.map((item) => {
+                if(item.id == dashBoardOptionId){
+                    return {...item, cards : item.cards.filter((cards) => cards.id !== cardId) }
+                }
+                return item
+            })
+           })
+            // setOptions(prev => prev.map((item) => if(item.id == dashBoardOptionId) )))
+        }
+
    return(
-    <BoardOptionContext.Provider value = {{options, setOptions, addCards}}>
+    <BoardOptionContext.Provider value = {{options, setOptions, addCards, editDashBoardOption, deleteCards}}>
         {children}
     </BoardOptionContext.Provider>
    )
