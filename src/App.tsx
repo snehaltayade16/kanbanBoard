@@ -11,7 +11,7 @@ function App() {
                         <KanbanBoard />
                     </div>
                 </main>
-                <footer className='h-20'></footer>
+                <footer className='h-20 flex items-center justify-center text-slate-600 font-bold'>@Kanban Board</footer>
             </section>
         </>
     )

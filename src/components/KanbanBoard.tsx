@@ -28,10 +28,10 @@ function KanbanBoard(){
             <div className="h-full w-full p-5 flex flex-col sm:flex-row gap-5 overflow-y-auto">
                 {
                     options.map((item) => 
-                        <div key ={item.id} className="h-fit sm:h-full flex flex-1 flex-col border border-[#C4D5E5] bg-slate-100 rounded-xl overflow-hidden">
+                        <div key ={item.id} className="h-fit sm:h-full flex flex-1 flex-col border border-[#C4D5E5] bg-slate-100 rounded-xl">
                             <div className="h-12 p-2 flex items-center justify-between gap-2.5 bg-white">
                                 <div className="h-full flex items-center">
-                                    <div className={`h-full w-1.5 rounded-full ml-1 mr-1.5 ${item.color}`}></div>
+                                    <div className={`aspect-square w-1.5 rounded-full ml-1 mr-1.5 ${item.color}`}></div>
                                     {editId == item.id ? <input placeholder="Enter title" className="w-28 sm:w-28 mr-2.5 bg-slate-100 rounded-md p-1.5 text-slate-600 font-semibold border-[#c8c4c4]" autoFocus></input>:<p title={item.title} className="text-slate-600 font-semibold mr-2.5 truncate hover:text-clip">{item.title}</p>}
                                 </div>
                                 <div className="h-full flex items-center gap-1.5">
@@ -47,7 +47,7 @@ function KanbanBoard(){
                                 </div>
                             </div>
                             <div className="grow w-full flex-1 flex items-center relative">
-                                <div className="w-full sm:absolute inset-0 px-2.5 overflow-y-auto">
+                                <div className="w-full sm:absolute inset-0 px-2.5 pb-2.5 overflow-y-auto">
                                     {
                                         activeCardID == item.id &&
                                         (<div className="absolute top-2.5 inset-x-2.5 h-48 p-2.5 flex flex-col justify-between bg-white rounded-lg">
