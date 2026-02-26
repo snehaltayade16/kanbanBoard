@@ -6,41 +6,44 @@ import edit from '../assets/edit.png'
 function KanbanBoard(){
     const {options, addCards, editDashBoardOption} = useContext(BoardOptionContext)!
     const [activeCardID, setActiveCardID] = useState<number | null>(null)
+     const [editId, setEditId] = useState<number | null>(null)
     const [inputText, setInputText] = useState<string | null>(null)
-    const [isEdit, setEdit] = useState(false)
+    // const [isEdit, setEdit] = useState(false)
     function addNewTask(colId:number) {
-        if(!inputText) return;
+        if(!inputText){
+            alert('Please enter Task Name')
+            return;
+        };
         addCards(colId, inputText)
         setActiveCardID(0)
         setInputText('')
     }
     function showEditInput(id:number){
-        setActiveCardID(id)
-        setEdit(true)
+      setEditId(id)
     }
     console.log(options)
     return(
         <>
-            <div className="flex gap-5 h-full w-full pt-5">
+            <div className="flex flex-col sm:flex-row gap-5 h-full w-full p-5">
                {
                     options.map((item) => 
-                        <div key ={item.id} className="flex flex-col flex-1 bg-slate-100 rounded-xl p-3">
+                        <div key ={item.id} className="h-fit  sm:min-h-screen  flex flex-col flex-1 bg-slate-100 rounded-xl p-3">
                             <div className="flex items-center h-8 gap-2.5 justify-between">
                                 <div className="flex items-center">
                                     <div className={`h-2.5 rounded-full aspect-square mr-1.5 ${item.color}`}></div>
                                     {
                                     
-                                       activeCardID == item.id && isEdit == true ? <input placeholder="Enter title" onBlur={(e) =>{ editDashBoardOption(item.id, e.target.value), setEdit(false)}}></input>:<p className="text-black mr-2.5">{item.title}</p> 
+                                       editId == item.id ? <input placeholder="Enter title" className="mr-2.5 w-28 sm:w-28 bg-slate-100 rounded-md p-1.5 text-black border-[#c8c4c4]" autoFocus onBlur={(e) =>{ editDashBoardOption(item.id, e.target.value),setEditId(null) }}></input>:<p title={item.title} className="w-28 text-black mr-2.5 truncate hover:text-clip">{item.title}</p> 
 
                                     }
-                                    <div className="h-6 aspect-square flex items-center justify-center bg-sky-200 rounded-full text-xs font-bold">{item.cards.length}</div>
+                                    <div className="h-6 aspect-square flex items-center justify-center bg-blue-700 rounded-full text-xs font-bold">{item.cards.length}</div>
                                 </div>
                                 <div className="flex items-center gap-1.5">
-                                    <div className="text-xl text-slate-400 cursor-pointer" onClick={() => setActiveCardID(item.id)}>+</div>
-                                    <img src={edit} className="h-3.5" onClick={() => showEditInput(item.id)}/>
+                                    <div className="text-xl text-slate-400 cursor-pointer" title="Add new task" onClick={() => setActiveCardID(item.id)}>+</div>
+                                    <img src={edit} className="h-3.5 cursor-pointer" title="edit dashboard title" onClick={() => showEditInput(item.id)}/>
                                 </div>
                             </div>
-                            <div className="h-full w-full pt-2.5">
+                            <div className="flex-1 w-full pt-2.5">
                                 {
                                     activeCardID == item.id &&
                                     (<div className=" flex flex-col justify-between bg-white h-48 rounded-lg w-full p-2.5">
@@ -55,8 +58,8 @@ function KanbanBoard(){
                                 }
 
                                 {
-                                    item.cards.length > 0 ? 
-                                    item.cards.map(card => (<TaskCards key={card.id} CardData={card} DashBoardOptionId={item.id}/>)): <div className="h-full w-full flex items-center justify-center text-black">No Data Found</div>
+                                    item.cards.length > 0 ?
+                                    item.cards.map(card => (<TaskCards key={card.id} CardData={card} DashBoardOptionId={item.id}/>)) : <p className="h-full w-full flex items-center justify-center text-slate-400 ">Create New Task</p>
                                 }
                             </div>
                         </div>

@@ -46,6 +46,10 @@ function BoardColumnsProvider( {children}:Props ){
         }
 
         function editDashBoardOption(cardId:number, title:string){
+            if(title == ''){
+                alert('Please Enter Dashbord Title')
+                return;
+            }
             setOptions(prev => 
                 prev.map((items) => {
                     if(items.id == cardId)

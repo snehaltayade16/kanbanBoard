@@ -4,9 +4,9 @@ import KanbanBoard from './components/KanbanBoard'
 function App() {
   return (
     <>
-     <section className='flex flex-col px-5 h-full w-full bg-[#f5f9fc]'>
+     <section className='flex flex-col h-full w-full bg-[#f5f9fc]'>
         <Header/>
-        <main className='h-full w-full'>
+        <main className='h-full w-full overflow-y-auto'>
           <KanbanBoard/>
         </main>
         <footer className='h-20'></footer>

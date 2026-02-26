@@ -17,8 +17,8 @@ function TaskCards({CardData, DashBoardOptionId}:TaskCardProps){
     return(
         <div className="flex flex-col justify-between bg-white h-48 rounded-lg w-full p-2.5 mt-2.5">
             <div className="flex items-center justify-between">
-                <p className="py-3 pb-5 text-base text-black">{CardData.title}</p>
-                <img src={deleteIcon} className="h-5 cursor-pointer" onClick={() => deleteCards(CardData.id, DashBoardOptionId)}/>
+                <p className="py-3 pb-5 text-base text-black w-52 truncate hover:text-clip">{CardData.title}</p>
+                <img src={deleteIcon} title="Delete Card" className="h-5 cursor-pointer" onClick={() => deleteCards(CardData.id, DashBoardOptionId)}/>
             </div>
         </div>
     )
