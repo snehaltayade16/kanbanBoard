@@ -5,7 +5,7 @@ import deleteIcon from '../assets/delete.png'
 
 type Card ={
     id:number,
-    title:String
+    title:string
 }
 type TaskCardProps ={
     CardData : Card

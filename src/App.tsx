@@ -2,17 +2,19 @@ import './App.css'
 import Header from './components/Header'
 import KanbanBoard from './components/KanbanBoard'
 function App() {
-  return (
-    <>
-     <section className='flex flex-col h-full w-full bg-[#f5f9fc]'>
-        <Header/>
-        <main className='h-full w-full overflow-y-auto'>
-          <KanbanBoard/>
-        </main>
-        <footer className='h-20'></footer>
-     </section>
-    </>
-  )
+    return (
+        <>
+            <section className='h-full w-full flex flex-col bg-[#F5F9FC]'>
+                <Header />
+                <main className='grow w-full relative'>
+                    <div className="absolute inset-0 overflow-hidden">
+                        <KanbanBoard />
+                    </div>
+                </main>
+                <footer className='h-20'></footer>
+            </section>
+        </>
+    )
 }
 
 export default App
